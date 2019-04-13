@@ -66,9 +66,3 @@ def lg_t(x):
 # 计算ln
 def ln_t(x):
     return round(math.log(x, math.e), 10)
-
-
-
-
-
-
