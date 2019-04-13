@@ -61,8 +61,8 @@ def trigger(root):
     btnlog = tkinter.Button(ro, text='lg', font=('微软雅黑', 20),bg=('#96CDCD'), fg=('#4F4F4F'), bd=0.5, command=lambda \
             x='lg': buttonClick(x))
     btnlog.place(x=56, y=105, width=56, height=40)
-    btnln = tkinter.Button(ro, text='㏑', font=('微软雅黑', 20),bg=('#96CDCD'), fg=('#4F4F4F'), bd=0.5, command=lambda \
-            x='㏑': buttonClick(x))
+    btnln = tkinter.Button(ro, text='ln', font=('微软雅黑', 20),bg=('#96CDCD'), fg=('#4F4F4F'), bd=0.5, command=lambda \
+            x='ln': buttonClick(x))
     btnln.place(x=112, y=105, width=56, height=40)
     btnleft = tkinter.Button(ro, text='(', font=('微软雅黑', 20),bg=('#96CDCD'), fg=('#4F4F4F'), bd=0.5, command=lambda \
             x='(': buttonClick(x))
@@ -155,38 +155,79 @@ def trigger(root):
                         content = content.replace('×', '*')
                     elif operat == '^':
                         content = content.replace('^', '**')
+                strsin = r'sin\(\d+\)'
                 if 'sin' in content:
-                    content = re.findall("\d+", content)[0]
-                    value = sin_t(float(content))
-                    content = str(value)
+                    m = re.search(strsin, content)
+                    if m is not None:
+                        exchange = m.group()
+                        exchange1 =exchange
+                        exchange = re.search("\d+", exchange)
+                        value =exchange.group()
+                        value = str(sin_t(float(value)))
+                        content = content.replace(exchange1, value)
+                strcos = r'cos\(\d+\)'
                 if 'cos' in content:
-                    content = re.findall("\d+", content)[0]
-                    value = cos_t(float(content))
-                    content = str(value)
+                    m = re.search(strcos, content)
+                    if m is not None:
+                        exchange = m.group()
+                        exchange1 =exchange
+                        exchange = re.search("\d+", exchange)
+                        value =exchange.group()
+                        value = str(cos_t(float(value)))
+                        content = content.replace(exchange1, value)
+                strtan = r'tan\(\d+\)'
                 if 'tan' in content:
-                    content = re.findall("\d+", content)[0]
-                    value = tan_t(float(content))
-                    content = str(value)
+                    m = re.search(strtan, content)
+                    if m is not None:
+                        exchange = m.group()
+                        exchange1 = exchange
+                        exchange = re.search("\d+", exchange)
+                        value = exchange.group()
+                        value = str(tan_t(float(value)))
+                        content = content.replace(exchange1, value)
+                strsec = r'sec\(\d+\)'
                 if 'sec' in content:
-                    content = re.findall("\d+", content)[0]
-                    value = sec_t(float(content))
-                    content = str(value)
+                    m = re.search(strsec, content)
+                    if m is not None:
+                        exchange = m.group()
+                        exchange1 = exchange
+                        exchange = re.search("\d+", exchange)
+                        value = exchange.group()
+                        value = str(sec_t(float(value)))
+                        content = content.replace(exchange1, value)
+                strcsc = r'csc\(\d+\)'
                 if 'csc' in content:
-                    content = re.findall("\d+", content)[0]
-                    value = csc_t(float(content))
-                    content = str(value)
+                    m = re.search(strcsc, content)
+                    if m is not None:
+                        exchange = m.group()
+                        exchange1 = exchange
+                        exchange = re.search("\d+", exchange)
+                        value = exchange.group()
+                        value = str(csc_t(float(value)))
+                        content = content.replace(exchange1, value)
+                strlg = r'lg\(\d+\)'
                 if 'lg' in content:
-                    content = re.findall("\d+", content)[0]
-                    value = lg_t(float(content))
-                    content = str(value)
-                if '㏑' in content:
-                    content = re.findall("\d+", content)[0]
-                    value = ln_t(float(content))
-                    content = str(value)
-                else:
-                    value = eval(content)
-                    content = str(round(value, 10))
-            except:
+                    m = re.search(strlg, content)
+                    if m is not None:
+                        exchange = m.group()
+                        exchange1 = exchange
+                        exchange = re.search("\d+", exchange)
+                        value = exchange.group()
+                        value = str(lg_t(float(value)))
+                        content = content.replace(exchange1, value)
+                strln = r'ln\(\d+\)'
+                if 'ln' in content:
+                    m = re.search(strln, content)
+                    if m is not None:
+                        exchange = m.group()
+                        exchange1 = exchange
+                        exchange = re.search("\d+", exchange)
+                        value = exchange.group()
+                        value = str(ln_t(float(value)))
+                        content = content.replace(exchange1, value)
+                value = eval(content)
+                content = str(round(value, 10))
+            except ZeroDivisionError:
                 tk.messagebox.showerror('错误', 'VALUE ERROR')
                 return
         elif btn in operators:
@@ -194,13 +235,6 @@ def trigger(root):
                 tk.messagebox.showerror('错误', 'FORMAT ERROR')
                 return
             content += btn
-        # elif btn == '^':
-        #     n = content.split('.')
-        #     if all(map(lambda x: x.isdigit(), n)):
-        #         content = eval(content) * eval(content)
-        #     else:
-        #         tk.messagebox.showerror('错误', 'Input Error')
-        #         return
         elif btn == 'e':
             content = 2.7182818284
         elif btn == 'π':
@@ -223,8 +257,8 @@ def trigger(root):
             content +='csc('
         elif btn =='lg':
             content+='lg('
-        elif btn =='㏑':
-            content+='㏑('
+        elif btn =='ln':
+            content+='ln('
         elif btn == '←':  # 如果按下的是退格‘’，则选取当前数字第一位到倒数第二位
             content = content[0:-1]
         elif btn == '低级':
